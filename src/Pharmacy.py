@@ -25,13 +25,13 @@ for line in content:
     # Strippnig the whitespace from the drug cost and casting to int
     tokens[DRUG_COST_INDEX] = int(tokens[DRUG_COST_INDEX].strip())
     drug_name = tokens[DRUG_INDEX]
+    prescriber_name = (tokens[LAST_NAME_INDEX], tokens[FIRST_NAME_INDEX])
+    
     if drug_name not in drug_dict:
-        drug_dict[drug_name] = [tokens[DRUG_COST_INDEX], 
-                  set([tokens[LAST_NAME_INDEX], tokens[FIRST_NAME_INDEX]])]
-        
-    #drug_info = parse_entry(line)
-    #if drug_info[0] not in drug_dict:
-     #   drug_dict[drug_info[0]] = drug_info[1]
-    #else:
-     #   drug_dict[drug_info[0]] += drug_info[1]
-print(drug_dict)
+        #For a new drug, we create an empty set and explicitly
+        #add the prescriber name as a tuple
+        drug_dict[drug_name] = [tokens[DRUG_COST_INDEX], set()]
+        drug_dict[drug_name][1].add(prescriber_name)
+    else:
+        drug_dict[drug_name][0] += tokens[DRUG_COST_INDEX]
+        drug_dict[drug_name][1].add(prescriber_name)
