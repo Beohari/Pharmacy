@@ -17,3 +17,14 @@ def parse_entry (line):
     #Stripping the newline character
     drug_cost = int(tokens[DRUG_COST_INDEX].strip())
     return [drug, drug_cost]
+
+file = open("../input/itcont.txt", "r")
+
+content = file.readlines()
+
+#Removing the header line
+content.pop(0)
+
+for line in content:
+    drug_info = parse_entry(line)
+    print(drug_info[1])
