@@ -11,9 +11,11 @@ FIRST_NAME_INDEX = 2
 DRUG_INDEX = 3
 DRUG_COST_INDEX = 4
 
-file = open("../input/itcont.txt", "r")
+input_file = open("../input/itcont.txt", "r")
 
-content = file.readlines()
+content = input_file.readlines()
+
+input_file.close()
 
 drug_dict = {}
 
@@ -35,3 +37,27 @@ for line in content:
     else:
         drug_dict[drug_name][0] += tokens[DRUG_COST_INDEX]
         drug_dict[drug_name][1].add(prescriber_name)
+        
+def sort_dict(dictionary):
+    unsorted_drugs = []
+    for drug in dictionary:
+        drug_attributes = [drug, dictionary[drug][0], len(dictionary[drug][1])]
+        unsorted_drugs.append(drug_attributes)
+    
+    sorted_drugs = sorted(unsorted_drugs, 
+                          key = lambda l: (l[1], l[0]), reverse = True)
+    return sorted_drugs  
+
+def write_output(sorted_list):
+    output_file = open("../output/top_cost_drug.txt", "w+")
+    output_file.write("drug_name,num_prescriber,total_cost\n")
+    for drug in sorted_list:
+        output_file.write("%s,%d,%d\n" % (drug[0], drug[2], drug[1]))
+        
+    output_file.close()
+
+write_output(sort_dict(drug_dict))
+    
+    
+    
+    
