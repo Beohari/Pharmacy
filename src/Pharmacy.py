@@ -22,10 +22,16 @@ content.pop(0)
 
 for line in content:
     tokens = line.split(",")
-    tokens[DRUG_COST_INDEX] = tokens[DRUG_COST_INDEX].strip()
+    # Strippnig the whitespace from the drug cost and casting to int
+    tokens[DRUG_COST_INDEX] = int(tokens[DRUG_COST_INDEX].strip())
+    drug_name = tokens[DRUG_INDEX]
+    if drug_name not in drug_dict:
+        drug_dict[drug_name] = [tokens[DRUG_COST_INDEX], 
+                  set([tokens[LAST_NAME_INDEX], tokens[FIRST_NAME_INDEX]])]
+        
     #drug_info = parse_entry(line)
     #if drug_info[0] not in drug_dict:
      #   drug_dict[drug_info[0]] = drug_info[1]
     #else:
      #   drug_dict[drug_info[0]] += drug_info[1]
-        
+print(drug_dict)
