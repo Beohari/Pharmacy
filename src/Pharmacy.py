@@ -11,13 +11,6 @@ FIRST_NAME_INDEX = 2
 DRUG_INDEX = 3
 DRUG_COST_INDEX = 4
 
-def parse_entry (line):
-    tokens = line.split(",")
-    drug = tokens[DRUG_INDEX]
-    #Stripping the newline character
-    drug_cost = int(tokens[DRUG_COST_INDEX].strip())
-    return [drug, drug_cost]
-
 file = open("../input/itcont.txt", "r")
 
 content = file.readlines()
@@ -28,10 +21,11 @@ drug_dict = {}
 content.pop(0)
 
 for line in content:
-    drug_info = parse_entry(line)
-    if drug_info[0] not in drug_dict:
-        drug_dict[drug_info[0]] = drug_info[1]
-    else:
-        drug_dict[drug_info[0]] += drug_info[1]
+    tokens = line.split(",")
+    tokens[DRUG_COST_INDEX] = tokens[DRUG_COST_INDEX].strip()
+    #drug_info = parse_entry(line)
+    #if drug_info[0] not in drug_dict:
+     #   drug_dict[drug_info[0]] = drug_info[1]
+    #else:
+     #   drug_dict[drug_info[0]] += drug_info[1]
         
-print(drug_dict)
