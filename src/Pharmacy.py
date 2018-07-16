@@ -5,11 +5,14 @@ Created on Sat Jul 14 13:52:14 2018
 @author: Ian
 """
 
-ID_INDEX = 0
-LAST_NAME_INDEX = 1
-FIRST_NAME_INDEX = 2
-DRUG_INDEX = 3
-DRUG_COST_INDEX = 4
+from enum import Enum
+
+class Indices(Enum):
+    ID = 0
+    LAST_NAME = 1
+    FIRST_NAME = 2
+    DRUG = 3
+    DRUG_COST = 4
 
 def sort_dict(dictionary):
     unsorted_drugs = []
@@ -33,31 +36,35 @@ def make_dict(content):
 
     for line in content:
         tokens = line.split(",")
-        # Strippnig the whitespace from the drug cost and casting to int
-        tokens[DRUG_COST_INDEX] = int(tokens[DRUG_COST_INDEX].strip())
-        drug_name = tokens[DRUG_INDEX]
-        prescriber_name = (tokens[LAST_NAME_INDEX], tokens[FIRST_NAME_INDEX])
+        # Stripping the whitespace from the drug cost and casting to int
+        tokens[Indices.DRUG_COST] = int(tokens[Indices.DRUG_COST].strip())
+        drug_name = tokens[Indices.DRUG]
+        prescriber_name = (tokens[Indices.LAST_NAME], tokens[Indices.FIRST_NAME])
         
         if drug_name not in drug_dict:
-            #For a new drug, we create an empty set and explicitly
-            #add the prescriber name as a tuple
-            drug_dict[drug_name] = [tokens[DRUG_COST_INDEX], set()]
+            # For a new drug, we create an empty set and explicitly
+            # add the prescriber name as a tuple
+            drug_dict[drug_name] = [tokens[Indices.DRUG_COST], set()]
             drug_dict[drug_name][1].add(prescriber_name)
         else:
-            drug_dict[drug_name][0] += tokens[DRUG_COST_INDEX]
+            drug_dict[drug_name][0] += tokens[Indices.DRUG_COST]
             drug_dict[drug_name][1].add(prescriber_name)
             
     return drug_dict
 
-input_file = open("input/itcont.txt", "r")
+def main():
+    input_file = open("input/itcont.txt", "r")
 
-content = input_file.readlines()
+    content = input_file.readlines()
 
-#Removing the header line
-content.pop(0)
+    # Removing the header line
+    content.pop(0)
 
-input_file.close()
+    input_file.close()
 
-unsorted_dict = make_dict(content)
-sorted_list = sort_dict(unsorted_dict)
-write_output(sorted_list)
+    unsorted_dict = make_dict(content)
+    sorted_list = sort_dict(unsorted_dict)
+    write_output(sorted_list)
+
+if __name__ == "__main__":
+    main()
