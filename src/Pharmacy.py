@@ -22,7 +22,7 @@ def sort_dict(dictionary):
     return sorted_drugs  
 
 def write_output(sorted_list):
-    output_file = open("../output/top_cost_drug.txt", "w+")
+    output_file = open("output/top_cost_drug.txt", "w+")
     output_file.write("drug_name,num_prescriber,total_cost\n")
     for drug in sorted_list:
         output_file.write("%s,%d,%d\n" % (drug[0], drug[2], drug[1]))
@@ -49,7 +49,7 @@ def make_dict(content):
             
     return drug_dict
 
-input_file = open("../input/itcont.txt", "r")
+input_file = open("input/itcont.txt", "r")
 
 content = input_file.readlines()
 
